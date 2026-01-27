@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" aria-labelledby="title desc" role="img">
+  <title id="title">Todo App Logo</title>
+  <desc id="desc">Rounded square with a checkmark representing completed tasks</desc>
+  <rect x="1.5" y="1.5" width="21" height="21" rx="5" ry="5" fill="#2563EB"/>
+  <path d="M7.5 12.5l2.5 2.5L16.5 8.5" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
