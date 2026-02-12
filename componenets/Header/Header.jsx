@@ -7,7 +7,7 @@ export default function Header({ onMenuClick }) {
             <div className="px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16 md:h-20">
                     {/* Logo Section */}
-                    <div className="flex items-center space-x-3">
+                    <div className="flex items-center space-x-2">
                         <div className="flex-shrink-0">
                             <img
                                 src="/logo1.png"
@@ -15,8 +15,8 @@ export default function Header({ onMenuClick }) {
                                 className="h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14 object-contain"
                             />
                         </div>
-                        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-900 to-blue-700 bg-clip-text text-transparent">
-                            Vertex
+                        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-[#030244] to-[#7785cc] bg-clip-text text-transparent">
+                            PlanarX
                         </h1>
                     </div>
 

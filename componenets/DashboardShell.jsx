@@ -3,13 +3,13 @@
 import { useState } from 'react';
 import Sidebar from './Sidebar/Sidebar';
 import Header from './Header/Header';
-import { TodoProvider } from '@/context/TodoContext';
+import TodoProviderClient from '@/context/TodoProviderClient';
 
 export default function DashboardShell({ children }) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
     return (
-        <TodoProvider>
+        <TodoProviderClient>
             <div className="flex min-h-screen relative">
 
                 {/* Overlay for mobile */}
@@ -29,6 +29,6 @@ export default function DashboardShell({ children }) {
                 </main>
 
             </div>
-        </TodoProvider>
+        </TodoProviderClient>
     );
 }

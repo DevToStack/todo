@@ -1,3 +1,4 @@
+import { logActivity } from '@/lib/activity'
 import { query } from '@/lib/db'
 import { validateSession } from '@/lib/session'
 
@@ -88,6 +89,15 @@ export async function PUT(req, { params }) {
             )
         }
 
+        //  ACTIVITY: todo updated
+        logActivity({
+            user_id: user,
+            type: 'todo_updated',
+            entity_type: 'todo',
+            entity_id: id,
+            message: `Updated task "${title}"`
+        }).catch(console.error)
+
         return Response.json({ success: true })
     } catch (err) {
         if (err.message === 'UNAUTHORIZED') {
@@ -109,12 +119,12 @@ export async function PUT(req, { params }) {
 export async function DELETE(req, { params }) {
     try {
         const { id } = await params;
-        const user = await uid(req)
+        const user = await uid(req);
 
         const result = await query(
             `DELETE FROM todos WHERE id=? AND user_id=?`,
             [id, user]
-        )
+        );
 
         if (result.affectedRows === 0) {
             return Response.json(
@@ -123,14 +133,23 @@ export async function DELETE(req, { params }) {
             )
         }
 
-        return Response.json({ success: true })
+        // ACTIVITY: todo deleted
+        logActivity({
+            user_id: user,
+            type: 'todo_deleted',
+            entity_type: 'todo',
+            entity_id: id,
+            message: `Deleted a task`
+        }).catch(console.error);
+
+        return Response.json({ success: true });
 
     } catch (err) {
         if (err.message === 'UNAUTHORIZED') {
             return Response.json(
                 { error: 'Unauthorized' },
                 { status: 401 }
-            )
+            );
         }
 
         console.error(err)
@@ -138,6 +157,6 @@ export async function DELETE(req, { params }) {
         return Response.json(
             { error: 'Internal server error' },
             { status: 500 }
-        )
+        );
     }
 }

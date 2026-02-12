@@ -7,10 +7,13 @@ import AddTodo from './AddTodo/AddTodo';
 import Card from './UI/Card';
 import { FiCheckCircle, FiClock, FiList, FiTrendingUp } from 'react-icons/fi';
 import TodoList from './TodoList/TodoList';
+import { useActivities } from '@/hooks/useActivities';
+import { RecentActivityCard } from './activity/RecentActivityCard';
 
 // Remove TodoProvider wrapper - just use the context
 export function DashboardPageUi() {
     const { todos } = useTodo();
+    const { activities, loading, error } = useActivities(5)
     const [stats, setStats] = useState({
         total: 0,
         completed: 0,
@@ -85,70 +88,15 @@ export function DashboardPageUi() {
 
                 {/* Quick Stats & Info Section - 1/3 width */}
                 <div className="space-y-6">
-                    {/* Progress Card */}
-                    <Card>
-                        <h3 className="text-lg font-semibold text-gray-900 mb-4">Progress Overview</h3>
-                        <div className="space-y-4">
-                            <div>
-                                <div className="flex justify-between text-sm mb-1">
-                                    <span className="text-gray-600">Completion Rate</span>
-                                    <span className="font-medium">{stats.completionRate}%</span>
-                                </div>
-                                <div className="w-full bg-gray-200 rounded-full h-2">
-                                    <div
-                                        className="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-300"
-                                        style={{ width: `${stats.completionRate}%` }}
-                                    ></div>
-                                </div>
-                            </div>
-
-                            <div className="pt-4 border-t border-gray-200">
-                                <div className="flex justify-between text-sm mb-2">
-                                    <span className="text-gray-600">Completed</span>
-                                    <span className="font-medium text-green-600">{stats.completed}</span>
-                                </div>
-                                <div className="flex justify-between text-sm">
-                                    <span className="text-gray-600">Pending</span>
-                                    <span className="font-medium text-yellow-600">{stats.pending}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </Card>
-
-                    {/* Tips Card */}
-                    <Card>
-                        <h3 className="text-lg font-semibold text-gray-900 mb-4">Productivity Tips</h3>
-                        <ul className="space-y-3">
-                            <li className="flex items-start">
-                                <div className="flex-shrink-0 w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3"></div>
-                                <span className="text-sm text-gray-600">Break large tasks into smaller steps</span>
-                            </li>
-                            <li className="flex items-start">
-                                <div className="flex-shrink-0 w-2 h-2 bg-green-500 rounded-full mt-2 mr-3"></div>
-                                <span className="text-sm text-gray-600">Prioritize with deadlines</span>
-                            </li>
-                            <li className="flex items-start">
-                                <div className="flex-shrink-0 w-2 h-2 bg-purple-500 rounded-full mt-2 mr-3"></div>
-                                <span className="text-sm text-gray-600">Review completed tasks weekly</span>
-                            </li>
-                        </ul>
-                    </Card>
-
                     {/* Recent Activity */}
-                    <Card>
-                        <h3 className="text-lg font-semibold text-gray-900 mb-4">Recent Activity</h3>
-                        <div className="space-y-3">
-                            {todos
-                                .filter(todo => todo.completed)
-                                .slice(0, 3)
-                                .map(todo => (
-                                    <div key={todo.id} className="flex items-center text-sm">
-                                        <div className="w-2 h-2 bg-green-500 rounded-full mr-3"></div>
-                                        <span className="text-gray-600 truncate">Completed: {todo.title}</span>
-                                    </div>
-                                ))}
-                        </div>
-                    </Card>
+                    <RecentActivityCard 
+                        activities={activities}
+                        loading={loading}
+                        error={error}
+                        title="Recent Activity"
+                        showCount={true}
+                        limit={10}
+                    />
                 </div>
             </div>
         </div>

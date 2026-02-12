@@ -293,12 +293,12 @@ export default function TodoItem({ todo }) {
                                 </div>
                             </div>
 
-                            {/* Notes section */}
-                            {todo.notes && (
+                            {/* Description */}
+                            {todo.description && (
                                 <div className="mt-4">
-                                    <h4 className="text-xs font-medium text-gray-500 uppercase mb-2">Notes</h4>
+                                    <h4 className="text-xs font-medium text-gray-500 uppercase mb-2">Description</h4>
                                     <p className="text-sm text-gray-700 bg-gray-50 p-3 rounded-lg break-words">
-                                        {todo.notes}
+                                        {todo.description}
                                     </p>
                                 </div>
                             )}

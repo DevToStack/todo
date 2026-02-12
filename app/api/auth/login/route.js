@@ -2,6 +2,7 @@ import { query } from '@/lib/db'
 import bcrypt from 'bcrypt'
 import { createSession } from '@/lib/session'
 import { cookies } from 'next/headers'
+import { logActivity } from '@/lib/activity'   // ← import it
 
 export async function POST(req) {
     try {
@@ -47,7 +48,13 @@ export async function POST(req) {
             device: 'web'
         })
 
-        // ✅ FIX — await cookies()
+        // 👉 LOG SUCCESSFUL LOGIN
+        logActivity({
+            user_id: users[0].id,
+            type: 'login',
+            message: 'Logged in successfully'
+        }).catch(console.error)
+
         const cookieStore = await cookies()
 
         cookieStore.set({
@@ -57,7 +64,7 @@ export async function POST(req) {
             sameSite: 'lax',
             secure: process.env.NODE_ENV === 'production',
             path: '/',
-            maxAge: 60 * 60 * 24 * 7 // 7 days
+            maxAge: 60 * 60 * 24 * 7
         })
 
         return Response.json({ success: true })

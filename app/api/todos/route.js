@@ -1,3 +1,4 @@
+import { logActivity } from '@/lib/activity'
 import { pool, query } from '@/lib/db'
 import { validateSession } from '@/lib/session'
 
@@ -80,7 +81,16 @@ export async function POST(req) {
             [todoId]
         )
 
-        await conn.commit()
+        await conn.commit();
+
+        // ACTIVITY: todo created
+        logActivity({
+            user_id: userId,
+            type: 'todo_created',
+            entity_type: 'todo',
+            entity_id: todoId,
+            message: `Created task "${title}"`
+        }).catch(console.error);
 
         return Response.json({ success: true, todo: rows[0] })
     } catch (e) {
